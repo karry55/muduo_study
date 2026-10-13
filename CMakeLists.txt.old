@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 3.16)
+project(myproject CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# ══════════════════════════════════════════════════════════════════
+#  muduo 装在【项目内】，因此不需要 sudo、也不污染 /usr/include：
+#     third_party/muduo/include  ← 头文件
+#     third_party/muduo/lib      ← 静态/动态库
+#
+#  想改成系统级安装（/usr/include + /usr/local/lib）时，只要把
+#  MUDUO_PREFIX 改成 /usr/local 即可（见 README-muduo.md 里的 sudo 三行）。
+# ══════════════════════════════════════════════════════════════════
+set(MUDUO_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/third_party/muduo")
+
+add_executable(myproject src/main.cpp)
+
+# 头文件搜索路径：等价于 g++ -I third_party/muduo/include
+target_include_directories(myproject PRIVATE "${MUDUO_PREFIX}/include")
+
+# 库搜索路径：等价于 g++ -L third_party/muduo/lib
+target_link_directories(myproject PRIVATE "${MUDUO_PREFIX}/lib")
+
+# 链接参数：等价于 -lmuduo_net -lmuduo_base -lpthread
+target_link_libraries(myproject PRIVATE muduo_net muduo_base pthread)
+
+# 让可执行文件自己记住 libmuduo_*.so 在哪，省得每次 export LD_LIBRARY_PATH
+set_target_properties(myproject PROPERTIES
+  BUILD_RPATH "${MUDUO_PREFIX}/lib"
+  INSTALL_RPATH "${MUDUO_PREFIX}/lib")
+
+# 编译时把 muduo 的告警噪音压掉，聚焦自己的代码
+target_compile_options(myproject PRIVATE -Wall -Wextra)
