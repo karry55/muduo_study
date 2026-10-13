@@ -5,12 +5,12 @@ noncopyable 被继承以后,派生类对象可以正常的构造和析构,但是
 无法进行拷贝构造和赋值操作
 */
 
-class noncopyble {
+class noncopyable {
 public:
-  noncopyble(const noncopyble &) = delete;
-  noncopyble &operator=(const noncopyble &) = delete;
+  noncopyable(const noncopyable &) = delete;
+  noncopyable &operator=(const noncopyable &) = delete;
 
 protected:
-  noncopyble() = default;
-  ~noncopyble() = default;
+  noncopyable() = default;
+  ~noncopyable() = default;
 };

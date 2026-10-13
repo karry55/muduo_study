@@ -52,7 +52,7 @@ enum LogLevel {
 };
 
 // 输出一个日志类
-class Logger : noncopyble {
+class Logger : noncopyable {
 public:
   static Logger &instance();
   // 设置日志级别
