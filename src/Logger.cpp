@@ -1,9 +1,9 @@
-#pragma once
 
 #include "Logger.h"
+#include"Timestamp.h"
 #include <iostream>
 #include <string>
-
+#include <time.h>
 
 // 获取日志唯一的实习对象
 Logger &Logger::instance() {
@@ -24,11 +24,14 @@ void Logger::log(std::string msg) {
     std::cout << "[ERROR]";
     break;
   case FATAL:
-    std::cout << "[FATAL]";
+    std::cout << "[FATAL]";     
+    break;     
   case DEBUG:
     std::cout << "[DEBUG]";
     break;
   default:
     break;
   }
+
+  std::cout<< Timestamp::now().toString() << ":" << msg << std::endl;
 }
