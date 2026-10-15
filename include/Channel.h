@@ -57,11 +57,14 @@ public:
     update();
   }
 
+  int events() const { return events_; }
+
   // 返回fd当前的事件状态
   bool isWriting() const { return events_ & kWriteEvent; }
   bool isReading() const { return events_ & kReadEvent; }
 
   int index() const { return index_; }
+  void set_index(int idx) { index_ = idx; }
 
   // one loop per thread
   EventLoop *ownerLoop() { return loop_; }

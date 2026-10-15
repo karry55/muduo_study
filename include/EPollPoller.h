@@ -5,6 +5,12 @@
 #include <sys/epoll.h>
 #include <vector>
 
+/*
+epoll 的使用
+epoll_ctl  add/mod.del
+epoll_wait
+*/
+
 class EPollPoller : public Poller {
 public:
   EPollPoller(EventLoop *Loop);
@@ -19,7 +25,7 @@ private:
   static const int KInitEventListSize = 16;
 
   // 填写活跃的连接
-  void fillActiveChannels(int numEvents, Channel *actveChannels) const;
+  void fillActiveChannels(int numEvents, ChannelList *actveChannels) const;
   
   //更新channel通道
   void update(int operation, Channel *channel);
